@@ -5,7 +5,7 @@ public class SecretCodeGuesser {
     int correctLength = -1; // track correct key length
     
     // First, find correct length by brute-force
-    for (int length = 1; length <= 20; length++) {
+    for (int length = 1; length <= 100; length++) {
       String candidate = "B".repeat(length);
       int result = code.guess(candidate);
       if (result != -2) { // not a "wrong length" response

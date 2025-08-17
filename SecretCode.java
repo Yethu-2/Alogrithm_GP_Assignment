@@ -4,7 +4,8 @@ public class SecretCode {
 
   public SecretCode() {
     // for the real test, your program will not know this
-    correctCode = "BACXIUBACXIUBA"; 
+    // correctCode = "BACXIUBACXIUBA"; 
+    correctCode = "BACXIUBACXIUBABCAXBACXIUBACXIUBABCAXBACXIUBACXIUBABCAX";
     counter = 0;
   }
   // Returns 
@@ -40,6 +41,9 @@ public class SecretCode {
 
   public static void main(String[] args) {
     long t1 = System.currentTimeMillis();
+    // SecretCodeGuesserV2 check = new SecretCodeGuesserV2();
+    // check.check();
+
     new SecretCodeGuesser().start();
     long t2 = System.currentTimeMillis();
     System.out.println("Time taken: " + (t2-t1) + " ms");

@@ -1,10 +1,10 @@
-public class LengthCheck {
+public class SecretCodeGuesserV2 {
     public void check() {
         SecretCode code = new SecretCode();
         int correctLength = -1;
 
         // 1. Find length
-        for (int length = 1; length < 20; length++) {
+        for (int length = 1; length < 100; length++) {
             String dummy = "A".repeat(length);
             int result = code.guess(dummy);
             if (result != -2) {
