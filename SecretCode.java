@@ -40,8 +40,23 @@ public class SecretCode {
 
   public static void main(String[] args) {
     long t1 = System.currentTimeMillis();
+    System.out.println("Running SecretCodeGuesser...");
     new SecretCodeGuesser().start();
     long t2 = System.currentTimeMillis();
-    System.out.println("Time taken: " + (t2-t1) + " ms");
+    System.out.println("Time taken by SecretCodeGuesser: " + (t2 - t1) + " ms\n");
+
+    long t3 = System.currentTimeMillis();
+    System.out.println("Running SecretCodeGuesser1...");
+    new SecretCodeGuesser1().start();
+    long t4 = System.currentTimeMillis();
+    System.out.println("Time taken by SecretCodeGuesser1: " + (t4 - t3) + " ms\n");
+
+    // long t5 = System.currentTimeMillis();
+    // System.out.println("Running SecretCodeGuesser2...");
+    // new SecretCodeGuesser2().start();
+    // long t6 = System.currentTimeMillis();
+    // System.out.println("Time taken by SecretCodeGuesser2: " + (t6 - t5) + " ms\n");
+
+    // System.out.println("Total time taken: " + (t6 - t1) + " ms");
   }
 }
