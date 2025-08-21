@@ -18,7 +18,7 @@ public class SecretCode {
 
   public SecretCode() {
     // for the real test, your program will not know this
-    correctCode = "BACXIUBACXI";
+    correctCode = "BACXIUBACXIUBA";
     counter = 0;
   }
   // Returns 
@@ -59,23 +59,29 @@ public class SecretCode {
   public static void main(String[] args) {
     
 
-    long t1 = System.currentTimeMillis();
-    System.out.println("Running SecretCodeGuesser...");
-    new SecretCodeGuesser().start();
-    long t2 = System.currentTimeMillis();
-    System.out.println("Time taken by SecretCodeGuesser: " + (t2 - t1) + " ms\n");
+    // long t1 = System.currentTimeMillis();
+    // System.out.println("Running SecretCodeGuesser...");
+    // new SecretCodeGuesser().start();
+    // long t2 = System.currentTimeMillis();
+    // System.out.println("Time taken by SecretCodeGuesser: " + (t2 - t1) + " ms\n");
 
-    // long t3 = System.currentTimeMillis();
-    // System.out.println("Running SecretCodeGuesser1...");
-    // new SecretCodeGuesser1().start();
-    // long t4 = System.currentTimeMillis();
-    // System.out.println("Time taken by SecretCodeGuesser1: " + (t4 - t3) + " ms\n");
+    long t3 = System.currentTimeMillis();
+    System.out.println("Running SecretCodeGuesser1...");
+    new SecretCodeGuesser1().start();
+    long t4 = System.currentTimeMillis();
+    System.out.println("Time taken by SecretCodeGuesser1: " + (t4 - t3) + " ms\n");
 
     long t5 = System.currentTimeMillis();
     System.out.println("Running SecretCodeGuesserV2...");
     new SecretCodeGuesserV2().start();
     long t6 = System.currentTimeMillis();
     System.out.println("Time taken by SecretCodeGuesserV2: " + (t6 - t5) + " ms\n");
+
+    long t7 = System.currentTimeMillis();
+    System.out.println("Running SecretCodeGuesserV3...");
+    new SecretCodeGuesserV3().start();
+    long t8 = System.currentTimeMillis();
+    System.out.println("Time taken by SecretCodeGuesserV3: " + (t8 - t7) + " ms\n");
   }
 
   
