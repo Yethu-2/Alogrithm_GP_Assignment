@@ -1,10 +1,24 @@
+import java.security.SecureRandom;
+
 public class SecretCode {
   private String correctCode;
   private long counter;
 
+  // Allowed alphabet and RNG for generating the secret
+  // private static final char[] ALPHABET = {'B','A','C','X','I','U'};
+  // private static final SecureRandom RNG = new SecureRandom();
+
+  // private static String generateSecretCode(int length) {
+  //   StringBuilder sb = new StringBuilder(length);
+  //   for (int i = 0; i < length; i++) {
+  //     sb.append(ALPHABET[RNG.nextInt(ALPHABET.length)]);
+  //   }
+  //   return sb.toString();
+  // }
+
   public SecretCode() {
     // for the real test, your program will not know this
-    correctCode = "BACXIUBACXIUBA"; 
+    correctCode = "BACXIUBACXI";
     counter = 0;
   }
   // Returns 
@@ -38,25 +52,31 @@ public class SecretCode {
     return matched;
   }
 
+  public void reset() {
+    counter = 0;
+  }
+
   public static void main(String[] args) {
+    
+
     long t1 = System.currentTimeMillis();
     System.out.println("Running SecretCodeGuesser...");
     new SecretCodeGuesser().start();
     long t2 = System.currentTimeMillis();
     System.out.println("Time taken by SecretCodeGuesser: " + (t2 - t1) + " ms\n");
 
-    long t3 = System.currentTimeMillis();
-    System.out.println("Running SecretCodeGuesser1...");
-    new SecretCodeGuesser1().start();
-    long t4 = System.currentTimeMillis();
-    System.out.println("Time taken by SecretCodeGuesser1: " + (t4 - t3) + " ms\n");
+    // long t3 = System.currentTimeMillis();
+    // System.out.println("Running SecretCodeGuesser1...");
+    // new SecretCodeGuesser1().start();
+    // long t4 = System.currentTimeMillis();
+    // System.out.println("Time taken by SecretCodeGuesser1: " + (t4 - t3) + " ms\n");
 
-    // long t5 = System.currentTimeMillis();
-    // System.out.println("Running SecretCodeGuesser2...");
-    // new SecretCodeGuesser2().start();
-    // long t6 = System.currentTimeMillis();
-    // System.out.println("Time taken by SecretCodeGuesser2: " + (t6 - t5) + " ms\n");
-
-    // System.out.println("Total time taken: " + (t6 - t1) + " ms");
+    long t5 = System.currentTimeMillis();
+    System.out.println("Running SecretCodeGuesserV2...");
+    new SecretCodeGuesserV2().start();
+    long t6 = System.currentTimeMillis();
+    System.out.println("Time taken by SecretCodeGuesserV2: " + (t6 - t5) + " ms\n");
   }
+
+  
 }
