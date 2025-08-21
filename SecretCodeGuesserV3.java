@@ -69,8 +69,6 @@ public class SecretCodeGuesserV3 {
 
         for (int pos = 0; pos < correctLength; pos++) {
             char original = attempt[pos];
-            boolean improved = false;
-
             for (int i = 0; i < 6; i++) {
                 char candidate = getChar(i);
                 if (candidate == original)
@@ -84,35 +82,18 @@ public class SecretCodeGuesserV3 {
                 if (newScore > currentScore) {
                     currentScore = newScore;
                     freq[i]--; // use up this char
-                    improved = true;
                     break;
                 } else {
                     attempt[pos] = original; // revert
                 }
             }
 
-            // if no improvement, keep original (likely correct already)
         }
 
         System.out.println("Secret code found: " + new String(attempt));
     }
 
-    // Helper methods to map between chars and indices
-    private int getIndex(char c) {
-        if (c == 'A')
-            return 0;
-        else if (c == 'B')
-            return 1;
-        else if (c == 'C')
-            return 2;
-        else if (c == 'X')
-            return 3;
-        else if (c == 'I')
-            return 4;
-        else
-            return 5; // U
-    }
-
+    // Helper method to map index to char
     private char getChar(int index) {
         switch (index) {
             case 0:
