@@ -20,13 +20,6 @@ public class SecretCodeGuesser {
       return;
     }
 
-    // brute force key guessing
-    // String str = "B".repeat(correctLength); // use discovered length
-    // while (code.guess(str) != correctLength) {
-    //   str = next(str);
-    // }
-    // System.out.println("I found the secret code. It is " + str);
-
     // Find the frequency of occurence of each character
     int[] frequency = new int[6];
 
@@ -53,104 +46,157 @@ public class SecretCodeGuesser {
     charArray[5] = 'U';
 
     String baseGuess = "A".repeat(correctLength);
-    int baseGuessCount = code.guess(baseGuess);
+    int baseGuessCount = frequencyA;
 
+    // Original version
+
+    // for (int i = 0; i < baseGuess.length(); i++) {
+    //     char currentChar = baseGuess.charAt(i);
+    //     // String currentGuess = baseGuess;
+    //     StringBuilder currentGuess = new StringBuilder(baseGuess); // Version to improve time-complexity
+
+    //     for (char c : charArray) {
+    //       if (currentChar == c) {
+    //         continue; // No need to check for the same character
+    //       }
+
+    //       if (frequency[getIndex(c)] == 0) {
+    //         continue; // Character have appeared all frequency already, no need to check
+    //       }
+
+    //       // Replace only at index i
+    //       // currentGuess = baseGuess.substring(0, i) + c + baseGuess.substring(i + 1);
+    //       currentGuess.setCharAt(i, c);
+    //       int currentGuessCount = code.guess(currentGuess.toString());
+
+    //       if (currentGuessCount < baseGuessCount) {
+    //         frequency[getIndex(currentChar)] = frequency[getIndex(currentChar)] - 1;
+    //         break; // Break the loop as we have found the correct character
+    //       }
+
+    //       else if (currentGuessCount > baseGuessCount) {
+    //         baseGuess = currentGuess.toString(); // Found the correct character at position i, replace baseGuess with new String
+    //         baseGuessCount = currentGuessCount;
+    //         frequency[getIndex(c)] = frequency[getIndex(c)] - 1;
+    //         break;
+    //       }
+    //     }
+    // }
+
+    // System.out.println("The guess is: " + baseGuess);
+
+    
+    // // Version with approach to loop through characters based on their frequency
     for (int i = 0; i < baseGuess.length(); i++) {
         char currentChar = baseGuess.charAt(i);
-        String currentGuess = baseGuess;
+        StringBuilder currentGuess = new StringBuilder(baseGuess);
+
+        // always reorder before testing this position
+        reorder(charArray, frequency);
+
         for (char c : charArray) {
-          if (currentChar == c) {
-            continue; // No need to check for the same character
-          }
+            if (currentChar == c) {
+                continue; // skip same char
+            }
 
-          if (frequency[getIndex(c)] == 0) {
-            continue; // Character have appeared all frequency already, no need to check
-          }
+            if (frequency[getIndex(charArray, c)] == 0) {
+                continue; // skip exhausted chars
+            }
 
-          // Replace only at index i
-          currentGuess = baseGuess.substring(0, i) + c + baseGuess.substring(i + 1);
+            // test replacement
+            currentGuess.setCharAt(i, c);
+            int currentGuessCount = code.guess(currentGuess.toString());
 
-          int currentGuessCount = code.guess(currentGuess);
-          if (currentGuessCount < baseGuessCount) {
-            frequency[getIndex(currentChar)] = frequency[getIndex(currentChar)] - 1;
-            break; // Break the loop as we have found the correct character
-          }
+            if (currentGuessCount < baseGuessCount) {
+                // original char was correct
+                frequency[getIndex(charArray, currentChar)]--;
+                break;
+            } else if (currentGuessCount > baseGuessCount) {
+                // new char is correct
+                baseGuess = currentGuess.toString();
+                baseGuessCount = currentGuessCount;
+                frequency[getIndex(charArray, c)]--;
+                break;
+            }
+        }
 
-          else if (currentGuessCount > baseGuessCount) {
-            baseGuess = currentGuess; // Found the correct character at position i, replace baseGuess with new String
-            baseGuessCount = currentGuessCount;
-            frequency[getIndex(c)] = frequency[getIndex(c)] - 1;
-            break;
-          }
+
+        // --- New Optimization: Check if only one character remains ---
+        int remainingCharIndex = -1;
+        int remainingCount = 0;
+        for (int k = 0; k < frequency.length; k++) {
+            if (frequency[k] > 0) {
+                remainingCharIndex = k;
+                remainingCount++;
+            }
+        }
+
+        // If exactly one char is left, fill it in all remaining positions
+        if (remainingCount == 1) {
+            char lastChar = charArray[remainingCharIndex];
+            StringBuilder fillGuess = new StringBuilder(baseGuess);
+            for (int pos = i+1; pos < fillGuess.length(); pos++) {
+                if (fillGuess.charAt(pos) != lastChar) {
+                    fillGuess.setCharAt(pos, lastChar);
+                }
+            }
+            baseGuess = fillGuess.toString();
+            baseGuessCount = code.guess(baseGuess);
+            break; // we’re done
         }
     }
-
     System.out.println("The guess is: " + baseGuess);
+
+}
+
+
+  // public int getIndex(char c) {
+  //   if (c == 'A') {
+  //     return 0;
+  //   }
+  //   else if (c == 'B') {
+  //     return 1;
+  //   }
+  //   else if (c == 'C') {
+  //     return 2;
+  //   }
+  //   else if (c == 'X') {
+  //     return 3;
+  //   }
+  //   else if (c == 'I') {
+  //     return 4;
+  //   }
+  //   else {
+  //     return 5;
+  //   }
+  // }
+
+
+  // helper: get index of char in charArray
+  public int getIndex(char[] charArray, char c) {
+    for (int i = 0; i < charArray.length; i++) {
+        if (charArray[i] == c) return i;
+    }
+    return -1;
   }
 
-  static int order(char c) {
-    if (c == 'B') {
-      return 0;
-    } else if (c == 'A') {
-      return 1;
-    } else if (c == 'C') {
-      return 2;
-    } else if (c == 'X') {
-      return 3;
-    } else if (c == 'I') {
-      return 4;
-    } 
-    return 5;
-  }
-
-  static char charOf(int order) {
-    if (order == 0) {
-      return 'B';
-    } else if (order == 1) {
-      return 'A';
-    } else if (order == 2) {
-      return 'C';
-    } else if (order == 3) {
-      return 'X';
-    } else if (order == 4) {
-      return 'I';
-    } 
-    return 'U';
-  }
-
-  // return the next value in 'BACXIU' order, that is
-  // B < A < C < X < I < U
-  public String next(String current) {
-    char[] curr = current.toCharArray();
-    for (int i = curr.length - 1; i >=0; i--) {
-      if (order(curr[i]) < 5) {
-        // increase this one and stop
-        curr[i] = charOf(order(curr[i]) + 1);
-        break;
-      }
-      curr[i] = 'B';
-    }
-    return String.valueOf(curr);
-  }  
-
-  public int getIndex(char c) {
-    if (c == 'A') {
-      return 0;
-    }
-    else if (c == 'B') {
-      return 1;
-    }
-    else if (c == 'C') {
-      return 2;
-    }
-    else if (c == 'X') {
-      return 3;
-    }
-    else if (c == 'I') {
-      return 4;
-    }
-    else {
-      return 5;
+  // helper: reorder charArray and frequency[] by descending frequency
+  public void reorder(char[] arr, int[] freq) {
+    for (int i = 0; i < arr.length - 1; i++) {
+        for (int j = i + 1; j < arr.length; j++) {
+            if (freq[j] > freq[i]) {
+                // swap chars
+                char tmpC = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmpC;
+                // swap freqs
+                int tmpF = freq[i];
+                freq[i] = freq[j];
+                freq[j] = tmpF;
+            }
+        }
     }
   }
+
+
 }
