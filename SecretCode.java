@@ -41,11 +41,7 @@ public class SecretCode {
 
   public static void main(String[] args) {
     long t1 = System.currentTimeMillis();
-    // SecretCodeGuesserV2 check = new SecretCodeGuesserV2();
-    // check.check();
-
     new SecretCodeGuesser().start();
-    // new SecretCodeGuesserV3().start();
     long t2 = System.currentTimeMillis();
     System.out.println("Time taken: " + (t2-t1) + " ms");
   }
