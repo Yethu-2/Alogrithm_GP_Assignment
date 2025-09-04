@@ -10,4 +10,4 @@ Tran Thien Nhan - s4031277 - 3.0
 
 Le Van Chi Hoang - s4066691 - 3.0
 
-Video Presentation Link -
+Video Presentation Link - https://www.youtube.com/watch?v=5AMcs5U4_BM 
